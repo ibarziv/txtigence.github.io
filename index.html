@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TXTIGENCE | Next-Gen Interactive Fiction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .terminal-cursor::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-zinc-950">
+
+    <header class="border-b border-zinc-800/80 bg-zinc-900/30 backdrop-blur px-6 py-4">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <span class="font-mono text-emerald-500 font-semibold tracking-wider text-sm">// SYSTEM.READY</span>
+            <span class="text-xs text-zinc-500 font-mono">EST. 2026</span>
+        </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-6 py-20 flex-grow flex flex-col justify-center">
+        
+        <div class="mb-8">
+            <h1 class="font-mono text-4xl sm:text-5xl font-bold tracking-tight text-zinc-100 mb-2">
+                TXT<span class="text-emerald-500 terminal-cursor">IGENCE</span>
+            </h1>
+            <p class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Interactive Fiction Game Studio & Engine</p>
+        </div>
+
+        <div class="space-y-4 text-zinc-400 font-light text-base sm:text-lg leading-relaxed mb-12">
+            <p>
+                We are redefining text-driven electronic entertainment. By blending modern performance loops with classic interactive fiction mechanics, we are building a dedicated ecosystem for deep, text-adventure systems.
+            </p>
+            <p class="text-sm font-mono text-zinc-500">
+                Current status: Building our core engine in Python & Rust. First production title slated for Steam release in late 2026.
+            </p>
+        </div>
+
+        <div class="border border-zinc-800/80 bg-zinc-900/20 p-6 rounded-lg backdrop-blur-sm">
+            <h3 class="font-mono text-sm font-semibold text-emerald-400 mb-2">// JOIN THE DEVLOG</h3>
+            <p class="text-xs text-zinc-500 mb-4">Get high-level architecture updates, engine breakdowns, and early playtest access. No spam.</p>
+            
+            <form action="https://formspree.io/f/your_form_id" method="POST" class="flex flex-col sm:flex-row gap-2">
+                <input 
+                    type="email" 
+                    name="email" 
+                    required 
+                    placeholder="you@example.com" 
+                    class="bg-zinc-900 border border-zinc-700/60 rounded px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 font-mono flex-grow transition-colors"
+                >
+                <button 
+                    type="submit" 
+                    class="bg-emerald-600 hover:bg-emerald-500 text-zinc-950 font-mono font-semibold text-sm rounded px-6 py-2.5 transition-colors duration-200"
+                >
+                    Subscribe
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <footer class="border-t border-zinc-900 px-6 py-6 text-center text-xs text-zinc-600 font-mono">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>&copy; 2026 TXTIGENCE. All rights reserved.</div>
+            <div class="flex gap-4">
+                <a href="mailto:hello@txtigence.com" class="hover:text-emerald-400 transition-colors">contact</a>
+                <a href="#" class="hover:text-emerald-400 transition-colors">github</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
