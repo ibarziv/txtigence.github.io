@@ -61,9 +61,10 @@
             <h3 class="font-mono text-sm font-semibold text-emerald-400 mb-2">// JOIN THE DEVLOG</h3>
             <p class="text-xs text-zinc-500 mb-4">Get high-level architecture updates, engine breakdowns, and early playtest access. No spam.</p>
             
-            <form action="https://formspree.io/f/mrevnkyo" method="POST" class="flex flex-col sm:flex-row gap-2">
+            <form id="signup-form" class="flex flex-col sm:flex-row gap-2">
                 <input 
                     type="email" 
+                    id="email-input"
                     name="email" 
                     required 
                     placeholder="you@example.com" 
@@ -71,11 +72,14 @@
                 >
                 <button 
                     type="submit" 
+                    id="submit-button"
                     class="bg-emerald-600 hover:bg-emerald-500 text-zinc-950 font-mono font-semibold text-sm rounded px-6 py-2.5 transition-colors duration-200"
                 >
                     Subscribe
                 </button>
             </form>
+            
+            <p id="form-message" class="text-xs font-mono mt-3 hidden"></p>
         </div>
 
     </main>
@@ -85,4 +89,55 @@
             <div>&copy; 2026 TEXTIGENCE. All rights reserved.</div>
             <div class="flex gap-4">
                 <a href="mailto:hello@txtigence.com" class="hover:text-emerald-400 transition-colors">contact</a>
-                <a href="#" class="hover:text-emerald-400 transition-colors">github
+                <a href="#" class="hover:text-emerald-400 transition-colors">github</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // תדביק כאן את הכתובת הארוכה שקיבלת מגוגל בשלב ה-Deploy
+        const GOOGLE_WEB_APP_URL = "YOUR_GOOGLE_WEB_APP_URL_HERE";
+
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // מונע מהעמוד להיטען מחדש
+            
+            const emailInput = document.getElementById('email-input');
+            const submitButton = document.getElementById('submit-button');
+            const messageText = document.getElementById('form-message');
+            const userEmail = emailInput.value;
+            
+            // שינוי מצב כפתור בזמן השליחה
+            submitButton.disabled = true;
+            submitButton.innerText = "Submitting...";
+            submitButton.classList.add('opacity-50');
+            
+            // שליחת הנתונים ל-Google Apps Script
+            fetch(GOOGLE_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors', // קריטי לעבודה מול Apps Script כדי למנוע חסימות דפדפן
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: userEmail })
+            })
+            .then(() => {
+                // הצגת הודעת הצלחה מינימליסטית
+                messageText.innerText = "// SUCCESS: WELCOME TO THE DEVLOG.";
+                messageText.className = "text-xs font-mono mt-3 text-emerald-400 block";
+                emailInput.value = ""; // ניקוי השדה
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                messageText.innerText = "// ERROR: UNABLE TO CONNECT TO SERVER.";
+                messageText.className = "text-xs font-mono mt-3 text-red-400 block";
+            })
+            .finally(() => {
+                // החזרת הכפתור למצב פעיל
+                submitButton.disabled = false;
+                submitButton.innerText = "Subscribe";
+                submitButton.classList.remove('opacity-50');
+            });
+        });
+    </script>
+</body>
+</html>
