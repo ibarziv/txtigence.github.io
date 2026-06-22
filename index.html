@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J0X5VD55S6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-J0X5VD55S6');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEXTIGENCE | Next-Gen Interactive Fiction</title>
@@ -95,36 +103,41 @@
     </footer>
 
     <script>
-        // תדביק כאן את הכתובת הארוכה שקיבלת מגוגל בשלב ה-Deploy
         const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxmsA6jPYIMxte1n06oFMewHwOe3rRGG0k_9t2K5AoK1Rp5zMpYV-KA96oJlyE0dn9q/exec";
 
         document.getElementById('signup-form').addEventListener('submit', function(e) {
-            e.preventDefault(); // מונע מהעמוד להיטען מחדש
+            e.preventDefault(); 
             
             const emailInput = document.getElementById('email-input');
             const submitButton = document.getElementById('submit-button');
             const messageText = document.getElementById('form-message');
             const userEmail = emailInput.value;
             
-            // שינוי מצב כפתור בזמן השליחה
             submitButton.disabled = true;
             submitButton.innerText = "Submitting...";
             submitButton.classList.add('opacity-50');
             
-            // שליחת הנתונים ל-Google Apps Script
             fetch(GOOGLE_WEB_APP_URL, {
                 method: 'POST',
-                mode: 'no-cors', // קריטי לעבודה מול Apps Script כדי למנוע חסימות דפדפן
+                mode: 'no-cors', 
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ email: userEmail })
             })
             .then(() => {
-                // הצגת הודעת הצלחה מינימליסטית
+                // שילוח אירוע המרה (Conversion) ישירות ל-Google Analytics 4 בזמן הצלחה
+                if (typeof gtag === 'function') {
+                    gtag('event', 'generate_lead', {
+                        'event_category': 'engagement',
+                        'event_label': 'Devlog Subscription'
+                    });
+                }
+
+                // הצגת הודעת הצלחה
                 messageText.innerText = "// SUCCESS: WELCOME TO THE DEVLOG.";
                 messageText.className = "text-xs font-mono mt-3 text-emerald-400 block";
-                emailInput.value = ""; // ניקוי השדה
+                emailInput.value = ""; 
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -132,7 +145,6 @@
                 messageText.className = "text-xs font-mono mt-3 text-red-400 block";
             })
             .finally(() => {
-                // החזרת הכפתור למצב פעיל
                 submitButton.disabled = false;
                 submitButton.innerText = "Subscribe";
                 submitButton.classList.remove('opacity-50');
