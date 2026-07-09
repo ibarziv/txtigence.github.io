@@ -56,7 +56,7 @@
             <p class="font-mono text-xs text-zinc-500 uppercase tracking-widest mt-2">// AI-Powered Engine for Interactive Fiction</p>
         </div>
 
-        <div class="space-y-4 text-zinc-400 font-light text-base sm:text-lg leading-relaxed mb-12 text-center sm:text-left">
+        <div class="space-y-4 text-zinc-400 font-light text-base sm:text-lg leading-relaxed mb-8 text-center sm:text-left">
             <p>
                 We are redefining text-driven electronic entertainment. By blending modern performance loops with classic interactive fiction mechanics, we are building a dedicated ecosystem for deep, text-adventure systems.
             </p>
@@ -65,6 +65,34 @@
             </p>
         </div>
 
+        <div class="mb-12 space-y-4">
+            <div class="text-center sm:text-left">
+                <h2 class="font-mono text-sm font-semibold text-emerald-400 uppercase tracking-wider mb-1">// LIVE ENGINE DEMO</h2>
+                <p class="text-zinc-400 font-light text-sm sm:text-base leading-relaxed">
+                    Experience our next-gen text adventure framework in action. Play our introductory technical demo directly in your browser to see how the engine manages real-time state, complex parsing, and retro-modern interface rendering.
+                </p>
+            </div>
+
+            <div id="game-container" class="relative w-full h-[450px] bg-zinc-950 border border-zinc-800 rounded-lg overflow-hidden cursor-pointer group shadow-2xl shadow-emerald-950/10 transition-all duration-300 hover:border-emerald-800/60">
+                
+                <div id="game-poster" class="absolute inset-0 w-full h-full bg-zinc-900/40 backdrop-blur-[2px] bg-[url('preview.gif')] center/cover no-repeat flex flex-col items-center justify-center z-10 transition-all duration-300 group-hover:bg-zinc-900/20">
+                    
+                    <div class="absolute top-4 left-4 font-mono text-[10px] text-zinc-600 uppercase tracking-mono hidden sm:block">
+                        [Engine: Ready // Port: 8001]
+                    </div>
+                    
+                    <button class="px-6 py-3 font-mono font-semibold text-sm bg-emerald-600 hover:bg-emerald-500 text-zinc-950 rounded shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all duration-200 transform group-hover:scale-105">
+                        INITIALIZE_DEMO.EXE
+                    </button>
+                    
+                    <span class="text-[11px] font-mono text-zinc-500 mt-3 uppercase tracking-wider group-hover:text-zinc-400 transition-colors">
+                        Click to launch interactive environment
+                    </span>
+                </div>
+
+                <iframe id="game-frame" src="" class="w-full h-full border-none hidden"></iframe>
+            </div>
+        </div>
         <div class="border border-zinc-800/80 bg-zinc-900/20 p-6 rounded-lg backdrop-blur-sm">
             <h3 class="font-mono text-sm font-semibold text-emerald-400 mb-2">// JOIN THE DEVLOG</h3>
             <p class="text-xs text-zinc-500 mb-4">Get high-level architecture updates, engine breakdowns, and early playtest access. No spam.</p>
@@ -103,6 +131,26 @@
     </footer>
 
     <script>
+        // --- Game Iframe Lazy-Loading Implementation ---
+        document.getElementById('game-container').addEventListener('click', function() {
+            const poster = document.getElementById('game-poster');
+            const iframe = document.getElementById('game-frame');
+            
+            // טעינה חכמה של ה-URL הציבורי שלך רק בזמן הלחיצה האקטיבית
+            if (iframe.src === "" || iframe.src === window.location.href) {
+                // הדבק כאן את ה-Static IP הציבורי שקיבלת מאמזון
+                iframe.src = "http://3.65.141.126:8001"; 
+            }
+            
+            poster.style.display = 'none';
+            iframe.style.display = 'block';
+            
+            // העברת הפוקוס האוטומטי ישירות למקלדת של ה-iframe
+            iframe.focus();
+        });
+
+
+        // --- Existing Devlog Sheet Endpoint & Logic ---
         const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxmsA6jPYIMxte1n06oFMewHwOe3rRGG0k_9t2K5AoK1Rp5zMpYV-KA96oJlyE0dn9q/exec";
 
         document.getElementById('signup-form').addEventListener('submit', function(e) {
@@ -126,7 +174,6 @@
                 body: JSON.stringify({ email: userEmail })
             })
             .then(() => {
-                // שילוח אירוע המרה (Conversion) ישירות ל-Google Analytics 4 בזמן הצלחה
                 if (typeof gtag === 'function') {
                     gtag('event', 'generate_lead', {
                         'event_category': 'engagement',
@@ -134,7 +181,6 @@
                     });
                 }
 
-                // הצגת הודעת הצלחה
                 messageText.innerText = "// SUCCESS: WELCOME TO THE DEVLOG.";
                 messageText.className = "text-xs font-mono mt-3 text-emerald-400 block";
                 emailInput.value = ""; 
